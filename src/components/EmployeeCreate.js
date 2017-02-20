@@ -105,7 +105,6 @@ const styles = {
 }
 
 const mapStateToProps = ({ employeeCreate }) => {
-  console.log(employeeCreate);
   const { name, phone, Monday, Tuesday, Wednesday, Thursday, Friday } = employeeCreate;
   return { name, phone, Monday, Tuesday, Wednesday, Thursday, Friday };
 }
