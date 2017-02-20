@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Platform } from 'react-native';
 import { Router, Scene, Actions } from 'react-native-router-flux';
 import { Icon } from 'native-base';
+import { connect } from 'react-redux';
+import { clearEmployee } from '../actions';
 
 import LoginForm from '../components/LoginForm';
 import EmployeeList from '../components/EmployeeList';
@@ -24,6 +26,10 @@ class RouterComponent extends Component {
           <Scene
             key="employeeCreate"
             title="Create Employee"
+            onBack={() => {
+              Actions.pop();
+              this.props.clearEmployee();
+            }}
             component={EmployeeCreate} />
         </Scene>
       </Router>
@@ -37,4 +43,4 @@ const styles = {
   }
 }
 
-export default RouterComponent;
+export default connect(null, { clearEmployee })(RouterComponent);

@@ -32,7 +32,6 @@ class LoginForm extends Component {
   }
 
   render() {
-    console.log(this.props.user);
     return (
       <Container>
         <View style={styles.container}>
