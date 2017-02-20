@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser } from '../actions';
-import { Actions } from 'react-native-router-flux';
 import {
   Container,
   Form,
@@ -18,9 +17,6 @@ import {
 
 
 class LoginForm extends Component {
-  componentWillUpdate() {
-    if (this.props.user) Actions.employeeList();
-  }
 
   onEmailChange(text) {
     this.props.emailChanged(text);
@@ -57,7 +53,7 @@ class LoginForm extends Component {
                 placeholder="name@example.com" />
             </Item>
 
-            <Item fixedLabel last>
+            <Item fixedLabel>
               <Label>Password</Label>
               <Input
                 secureTextEntry
@@ -92,7 +88,7 @@ const styles = {
   form: {
     marginRight: 20,
     marginLeft: 20,
-    flex: 1,
+    flex: 2,
     justifyContent: 'flex-start',
     alignItems: 'center'
   },
