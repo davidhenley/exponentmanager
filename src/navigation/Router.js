@@ -5,22 +5,26 @@ import { Icon } from 'native-base';
 
 import LoginForm from '../components/LoginForm';
 import EmployeeList from '../components/EmployeeList';
+import EmployeeCreate from '../components/EmployeeCreate';
 
 class RouterComponent extends Component {
   render() {
     return (
-      <Router>
+      <Router sceneStyle={styles.scene}>
         <Scene key="auth">
           <Scene key="loginForm" component={LoginForm} hideNavBar />
         </Scene>
-        <Scene initial key="main">
+        <Scene key="main">
           <Scene
             key="employeeList"
             title="Employee List"
             component={EmployeeList}
             rightTitle="Add"
-            style={styles.scene}
-            onRight={() => console.log('pressed')} />
+            onRight={() => Actions.employeeCreate()} />
+          <Scene
+            key="employeeCreate"
+            title="Create Employee"
+            component={EmployeeCreate} />
         </Scene>
       </Router>
     );
@@ -29,7 +33,7 @@ class RouterComponent extends Component {
 
 const styles = {
   scene: {
-    paddingTop: (Platform.OS === 'ios' ? 64 : 44)
+    paddingTop: (Platform.OS === 'ios' ? 64 : 54)
   }
 }
 

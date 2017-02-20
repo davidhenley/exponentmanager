@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser } from '../actions';
+import { Actions } from 'react-native-router-flux';
 import {
   Container,
   Form,
@@ -17,6 +18,10 @@ import {
 
 
 class LoginForm extends Component {
+  componentWillUpdate() {
+    if (this.props.user) Actions.employeeList();
+  }
+
   onEmailChange(text) {
     this.props.emailChanged(text);
   }

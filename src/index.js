@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
-import { View } from 'react-native';
+import { StatusBar } from 'react-native';
 import firebase from 'firebase';
 import Router from './navigation/Router';
 
@@ -12,6 +12,7 @@ import LoginForm from './components/LoginForm';
 
 class App extends Component {
   componentWillMount() {
+    StatusBar.setHidden(true);
     const config = {
       apiKey: 'AIzaSyBA1lKlR2DZBnEYv4re8d3L8BF1GwxDzUc',
       authDomain: 'react-native-manager-4633a.firebaseapp.com',
