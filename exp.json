@@ -10,7 +10,7 @@
   "icon": "https://s3.amazonaws.com/exp-brand-assets/ExponentEmptyManifest_192.png",
   "loading": {
     "icon": "https://s3.amazonaws.com/exp-brand-assets/ExponentEmptyManifest_192.png",
-    "hideExponentText": false
+    "hideExponentText": true
   },
   "packagerOpts": {
     "assetExts": ["ttf", "mp4"]
