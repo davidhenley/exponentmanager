@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import {
   Container,
   Card,
@@ -26,16 +27,13 @@ class EmployeeCreate extends Component {
   onButtonPress() {
     const { name, phone, Monday, Tuesday, Wednesday, Thursday, Friday } = this.props;
     const days = {Monday, Tuesday, Wednesday, Thursday, Friday};
-    const shiftarray = [];
-    function* entries(obj) {
-      for (let key of Object.keys(obj)) {
-        yield [key, obj[key]];
-      }
-    }
-    for (let [key, value] of entries(days)) {
-      if (value === true) shiftarray.push(key);
-    }
-    const shift = shiftarray.join(', ');
+    const shiftarray = _.map(days, (val, key) => {
+      if (val === true) return key;
+    });
+    const shift = _.filter(shiftarray, (param) => {
+      return param !== undefined;
+    }).join(', ');
+    console.log(shift);
     this.props.createEmployee({ name, phone, shift });
   }
 
