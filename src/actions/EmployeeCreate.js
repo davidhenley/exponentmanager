@@ -3,7 +3,8 @@ import { Actions } from 'react-native-router-flux';
 import {
   EMPLOYEE_UPDATE,
   CLEAR_EMPLOYEE,
-  EMPLOYEE_FETCH_SUCCESS
+  EMPLOYEE_FETCH_SUCCESS,
+  FETCHING_EMPLOYEES
 } from './types';
 
 export const employeeUpdate = ({ prop, value }) => {
@@ -36,6 +37,7 @@ export const fetchEmployees = () => {
   const { currentUser } = firebase.auth();
 
   return (dispatch) => {
+    dispatch({ type: FETCHING_EMPLOYEES });
     firebase.database().ref(`users/${currentUser.uid}/employees`)
       .on('value', snapshot => {
         dispatch({ type: EMPLOYEE_FETCH_SUCCESS, payload: snapshot.val() });

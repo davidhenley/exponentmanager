@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
 import { Container, Content, Text, List, ListItem, Spinner } from 'native-base';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
 import { fetchEmployees } from '../actions';
 
 class EmployeeList extends Component {
+
   componentWillMount() {
     this.props.fetchEmployees();
   }
 
+  onRowPress(employee) {
+    Actions.employeeCreate({ employee });
+  }
+
   render() {
-    console.log(this.props.employees);
     return (
       <Container>
         <Content>
-          <List dataArray={this.props.employees} renderRow={(employee) => {
-            return <ListItem><Text>{employee.name}</Text></ListItem>;
-          }} />
+          { this.props.isLoading ? (<Spinner color='black' />) : (<List dataArray={this.props.employees} renderRow={(employee) => {
+            return (
+              <ListItem onPress={() => this.onRowPress(employee)}>
+                <Text>{employee.name}</Text>
+              </ListItem>
+            );
+          }} />)}
         </Content>
       </Container>
     );
@@ -24,10 +33,10 @@ class EmployeeList extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const employees = _.map(state.employees, (val, key) => {
+  const employees = _.map(state.employees.employees, (val, key) => {
     return { ...val, key };
   });
-  return { employees };
+  return { employees, isLoading: state.employees.isLoading };
 };
 
 export default connect(mapStateToProps, { fetchEmployees })(EmployeeList);
