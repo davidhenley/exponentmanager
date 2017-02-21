@@ -33,7 +33,6 @@ class EmployeeCreate extends Component {
     const shift = _.filter(shiftarray, (param) => {
       return param !== undefined;
     }).join(', ');
-    console.log(shift);
     this.props.createEmployee({ name, phone, shift });
   }
 
