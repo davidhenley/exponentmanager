@@ -15,12 +15,28 @@ import {
   View
 } from 'native-base';
 import { connect } from 'react-redux';
-import { employeeUpdate } from '../actions';
+import { employeeUpdate, createEmployee } from '../actions';
 
 class EmployeeCreate extends Component {
 
   toggleDay(day, selected) {
     this.props.employeeUpdate({ prop: day, value: !selected });
+  }
+
+  onButtonPress() {
+    const { name, phone, Monday, Tuesday, Wednesday, Thursday, Friday } = this.props;
+    const days = {Monday, Tuesday, Wednesday, Thursday, Friday};
+    const shiftarray = [];
+    function* entries(obj) {
+      for (let key of Object.keys(obj)) {
+        yield [key, obj[key]];
+      }
+    }
+    for (let [key, value] of entries(days)) {
+      if (value === true) shiftarray.push(key);
+    }
+    const shift = shiftarray.join(', ');
+    this.props.createEmployee({ name, phone, shift });
   }
 
   render() {
@@ -77,6 +93,7 @@ class EmployeeCreate extends Component {
            </Body>
          </ListItem>
          <Button
+           onPress={this.onButtonPress.bind(this)}
            block
            style={styles.button}
            primary>
@@ -109,4 +126,4 @@ const mapStateToProps = ({ employeeCreate }) => {
   return { name, phone, Monday, Tuesday, Wednesday, Thursday, Friday };
 }
 
-export default connect(mapStateToProps, { employeeUpdate })(EmployeeCreate);
+export default connect(mapStateToProps, { employeeUpdate, createEmployee })(EmployeeCreate);

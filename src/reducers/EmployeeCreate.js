@@ -1,6 +1,7 @@
 import {
   EMPLOYEE_UPDATE,
-  CLEAR_EMPLOYEE
+  CLEAR_EMPLOYEE,
+  EMPLOYEE_CREATE
 } from '../actions/types';
 
 const INITIAL_STATE = {
