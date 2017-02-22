@@ -1,18 +1,10 @@
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 import {
-  EMPLOYEE_UPDATE,
   CLEAR_EMPLOYEE,
   EMPLOYEE_FETCH_SUCCESS,
   FETCHING_EMPLOYEES
 } from './types';
-
-export const employeeUpdate = ({ prop, value }) => {
-  return {
-    type: EMPLOYEE_UPDATE,
-    payload: { prop, value }
-  };
-};
 
 export const clearEmployee = () => {
   return {

@@ -9,6 +9,7 @@ import {
   Label,
   Input,
   Button,
+  List,
   ListItem,
   CheckBox,
   Body,
@@ -18,22 +19,32 @@ import {
 import { connect } from 'react-redux';
 import { employeeUpdate, createEmployee } from '../actions';
 
-class EmployeeCreate extends Component {
+const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
-  toggleDay(day, selected) {
-    this.props.employeeUpdate({ prop: day, value: !selected });
+class EmployeeCreate extends Component {
+  constructor() {
+    super();
+    this.state = {
+      name: '',
+      phone: '',
+      shift: []
+    };
   }
 
   onButtonPress() {
-    const { name, phone, Monday, Tuesday, Wednesday, Thursday, Friday } = this.props;
-    const days = {Monday, Tuesday, Wednesday, Thursday, Friday};
-    const shiftarray = _.map(days, (val, key) => {
-      if (val === true) return key;
-    });
-    const shift = _.filter(shiftarray, (param) => {
-      return param !== undefined;
-    }).join(', ');
+    const { name, phone, shift } = this.state;
     this.props.createEmployee({ name, phone, shift });
+  }
+
+  onRowPress(day) {
+    if (this.state.shift.indexOf(day) < 0) {
+      this.setState({ shift: [...this.state.shift, day] })
+    } else {
+      this.setState({ shift: [
+        ...this.state.shift.splice(0, this.state.shift.indexOf(day)),
+        ...this.state.shift.splice(this.state.shift.indexOf(day) + 1)
+      ] })
+    }
   }
 
   render() {
@@ -43,52 +54,32 @@ class EmployeeCreate extends Component {
           <Item fixedLabel>
             <Label>Name</Label>
             <Input
-              value={this.props.name}
-              onChangeText={value => this.props.employeeUpdate({ prop: 'name', value })}
+              value={this.state.name}
+              onChangeText={value => this.setState({ name: value })}
               style={styles.input}
               autoCapitalize="words" />
           </Item>
           <Item fixedLabel>
             <Label>Phone</Label>
             <Input
-              value={this.props.phone}
-              onChangeText={value => this.props.employeeUpdate({ prop: 'phone', value })}
+              value={this.state.phone}
+              onChangeText={value => this.setState({ phone: value })}
               style={styles.input}
               keyboardType="phone-pad" />
           </Item>
           <View style={styles.datepick}>
             <Text style={styles.datetext}>Choose Day(s)</Text>
           </View>
-          <ListItem>
-           <CheckBox checked={this.props.Monday} onPress={() => this.toggleDay('Monday', this.props.Monday)} />
-           <Body>
-               <Text>Monday</Text>
-           </Body>
-         </ListItem>
-         <ListItem>
-           <CheckBox checked={this.props.Tuesday} onPress={() => this.toggleDay('Tuesday', this.props.Tuesday)} />
-           <Body>
-               <Text>Tuesday</Text>
-           </Body>
-         </ListItem>
-         <ListItem>
-           <CheckBox checked={this.props.Wednesday} onPress={() => this.toggleDay('Wednesday', this.props.Wednesday)} />
-           <Body>
-               <Text>Wednesday</Text>
-           </Body>
-         </ListItem>
-         <ListItem>
-           <CheckBox checked={this.props.Thursday} onPress={() => this.toggleDay('Thursday', this.props.Thursday)} />
-           <Body>
-               <Text>Thursday</Text>
-           </Body>
-         </ListItem>
-         <ListItem last>
-           <CheckBox checked={this.props.Friday} onPress={() => this.toggleDay('Friday', this.props.Friday)} />
-           <Body>
-               <Text>Friday</Text>
-           </Body>
-         </ListItem>
+          <List dataArray={DAYS} renderRow={day => {
+            return (
+              <ListItem onPress={() => this.onRowPress(day)}>
+                <CheckBox onPress={() => this.onRowPress(day)} checked={this.state.shift.indexOf(day) >= 0} />
+                <Body>
+                  <Text>{day}</Text>
+                </Body>
+              </ListItem>
+            );
+          }} />
          <Button
            onPress={this.onButtonPress.bind(this)}
            block
@@ -118,9 +109,4 @@ const styles = {
   }
 }
 
-const mapStateToProps = ({ employeeCreate }) => {
-  const { name, phone, Monday, Tuesday, Wednesday, Thursday, Friday } = employeeCreate;
-  return { name, phone, Monday, Tuesday, Wednesday, Thursday, Friday };
-}
-
-export default connect(mapStateToProps, { employeeUpdate, createEmployee })(EmployeeCreate);
+export default connect(null, { createEmployee })(EmployeeCreate);
